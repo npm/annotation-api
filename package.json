@@ -6,7 +6,8 @@
   "scripts": {
     "pretest": "standard",
     "test": "nyc mocha test.js",
-    "version": "standard-version"
+    "version": "standard-version",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
   "homepage": "https://github.com/npm/annotation-api#readme",
   "devDependencies": {
     "chai": "^3.5.0",
+    "coveralls": "^2.11.9",
     "mocha": "^2.4.5",
     "nock": "^8.0.0",
     "nyc": "^6.4.0",
