@@ -1,0 +1,39 @@
+{
+  "name": "annotation-api",
+  "version": "1.0.0",
+  "description": "API for polling a set of external integrations and annotating packages and other entities on npmjs.com",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "standard",
+    "test": "nyc mocha test.js",
+    "version": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/npm/annotation-api.git"
+  },
+  "keywords": [
+    "annotation",
+    "npm",
+    "api"
+  ],
+  "author": "Ben Coe <ben@npmjs.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/npm/annotation-api/issues"
+  },
+  "homepage": "https://github.com/npm/annotation-api#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "nock": "^8.0.0",
+    "nyc": "^6.4.0",
+    "request": "^2.70.0",
+    "standard": "^6.0.8",
+    "standard-version": "^2.1.2"
+  },
+  "dependencies": {
+    "restify": "^4.0.4",
+    "yargs": "^4.6.0-candidate"
+  }
+}
