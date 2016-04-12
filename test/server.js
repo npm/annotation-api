@@ -1,7 +1,7 @@
 /* global describe, it, before, after */
 
 var server = null
-var annotationApi = require('./')
+var annotationApi = require('../')
 var request = require('request')
 
 require('chai').should()

@@ -1,0 +1,66 @@
+[
+  {
+    "id": 2,
+    "client_id": "37ddb29e-b7c1-43b3-8235-7b966971d350",
+    "client_secret": "f35fbd2e-36d3-4e36-beb6-6f58c604cd4d",
+    "email": null,
+    "name": "foo security",
+    "homepage": null,
+    "description": null,
+    "callback": "http://www.example.com/fetch/data",
+    "created": "2016-04-12T07:12:15.151Z",
+    "deleted": null,
+    "tokens": [
+      {
+        "id": 2,
+        "client_id": 2,
+        "access_token": "0f5aab83-7a62-4129-b407-e4837b52c111",
+        "refresh_token": "5a5b96ae-3c2e-4428-8098-3577fa773ff0",
+        "user_email": "another@email.com",
+        "refresh_expires": "2026-04-12T00:12:15.161Z",
+        "access_expires": "2026-04-12T00:12:15.161Z",
+        "created": "2016-04-12T07:12:15.161Z",
+        "deleted": null,
+        "_client": null
+      },
+      {
+        "id": 3,
+        "client_id": 2,
+        "access_token": "056353ac-8bf0-462b-9eb4-9f4b4ec8fcbb",
+        "refresh_token": "9ca4ffb7-d500-4c05-90b0-c94fef530067",
+        "user_email": "third@email.com",
+        "refresh_expires": "2026-04-12T00:12:15.161Z",
+        "access_expires": "2026-04-12T00:12:15.161Z",
+        "created": "2016-04-12T07:12:15.161Z",
+        "deleted": null,
+        "_client": null
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "client_id": "62ac2117-3a83-41a2-9b8e-9a2cab72bdbd",
+    "client_secret": "94e33ca1-fa8b-476d-a183-0ae99f2d3760",
+    "email": null,
+    "name": "bar security",
+    "homepage": null,
+    "description": null,
+    "callback": "htp://api2.example.com/data/2",
+    "created": "2016-04-12T07:12:15.160Z",
+    "deleted": null,
+    "tokens": [
+      {
+        "id": 4,
+        "client_id": 3,
+        "access_token": "fba2a9b6-1ac8-4c81-891d-e6501e866e3b",
+        "refresh_token": "5392d4fa-59e2-44a9-9415-f7814b2e886e",
+        "user_email": "some@email.com",
+        "refresh_expires": "2026-04-12T00:12:15.169Z",
+        "access_expires": "2026-04-12T00:12:15.169Z",
+        "created": "2016-04-12T07:12:15.169Z",
+        "deleted": null,
+        "_client": null
+      }
+    ]
+  }
+]
