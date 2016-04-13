@@ -30,13 +30,15 @@
     "mocha": "^2.4.5",
     "nock": "^8.0.0",
     "nyc": "^6.4.0",
-    "request": "^2.70.0",
     "standard": "^6.0.8",
     "standard-version": "^2.1.2"
   },
   "dependencies": {
+    "async": "^1.5.2",
+    "lodash": "^4.10.0",
     "redis": "^2.5.3",
+    "request": "^2.70.0",
     "restify": "^4.0.4",
-    "yargs": "^4.6.0-candidate"
+    "yargs": "^4.6.0"
   }
 }
