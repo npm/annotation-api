@@ -26,8 +26,7 @@ module.exports = function (opts, cb) {
     console.info(server.name + ' listening at ' + server.url)
   })
 
-  clientManager.load(function (err) {
-    if (err) console.error(err.message)
-    else console.info('loaded addon clients')
+  clientManager.start(function () {
+    console.info('loaded addon clients')
   })
 }
