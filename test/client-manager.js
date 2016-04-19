@@ -100,8 +100,6 @@ describe('ClientManager', function () {
       clientManager.load(function (err) {
         expect(err).to.equal(undefined)
         clientManager.annotationsForPageLoad(pkgName, function (annotations) {
-          expect(err).to.equal(undefined)
-
           var annotation = annotations[0]
           // the client-id gets written to the
           // annotation as a unique identifier.
