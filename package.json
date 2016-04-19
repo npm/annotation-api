@@ -1,6 +1,6 @@
 {
   "name": "@npm/annotation-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "API for polling a set of external integrations and annotating packages and other entities on npmjs.com",
   "main": "index.js",
   "scripts": {
