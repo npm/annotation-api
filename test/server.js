@@ -6,6 +6,7 @@ var request = require('request')
 
 require('chai').should()
 global.console.info = function () {}
+global.console.error = function () {}
 
 describe('annotation-api', function () {
   before(function (done) {
