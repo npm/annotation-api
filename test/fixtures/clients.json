@@ -8,6 +8,7 @@
     "homepage": null,
     "description": null,
     "callback": "http://www.example.com/fetch/data",
+    "webhook": "http://www.example.com/fetch/data",
     "created": "2016-04-12T07:12:15.151Z",
     "deleted": null,
     "tokens": [
@@ -45,7 +46,8 @@
     "name": "bar security",
     "homepage": null,
     "description": null,
-    "callback": "htp://api2.example.com/data/2",
+    "callback": "http://api2.example.com/data/2",
+    "webhook": "http://api2.example.com/data/2",
     "created": "2016-04-12T07:12:15.160Z",
     "deleted": null,
     "tokens": [
