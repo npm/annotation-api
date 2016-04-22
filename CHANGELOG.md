@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/npm/annotation-api/compare/v1.3.1...v1.4.0) (2016-04-22)
+
+
+### Features
+
+* we should send along the sharedFetchSecret ([98da062](https://github.com/npm/annotation-api/commit/98da062))
+
+
+
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/npm/annotation-api/compare/v1.3.0...v1.3.1) (2016-04-22)
 
