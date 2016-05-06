@@ -106,9 +106,61 @@ describe('ClientManager', function () {
           annotation.id.should.equal(clients[0].client_id)
           annotation.fingerprint.should.match(/[a-z0-9]{64}/)
 
-          getClients.done()
-          getAnnotation.done()
-          return done()
+          // we should cache the annotation.
+          client.lrange(clientManager.key('foo-pkg'), 0, 999, function (err, res) {
+            if (err) return done(err)
+            res.length.should.equal(1)
+            getClients.done()
+            getAnnotation.done()
+            return done()
+          })
+        })
+      })
+    })
+
+    it('caches for shorter period of time if some outbound requests failed', function (done) {
+      var pkgName = 'foo-pkg'
+      var payload = JSON.stringify({
+        event: 'package:page-load',
+        package: pkgName,
+        sender: {
+          email: clients[0].tokens[0].user_email
+        }
+      })
+      var clientManager = new ClientManager()
+      var signature = clientManager.sign(payload, clients[0])
+      var getClients = nock('http://0.0.0.0:8084')
+        .get('/client')
+        .reply(200, [clients[0], clients[0]])
+      // mock requesting a payload from an external
+      // service. the webhook endpoint is stored on
+      // the OAuth client.
+      var getAnnotation = nock('http://www.example.com', {
+        reqheaders: {
+          'npm-signature': signature,
+          'content-type': 'application/json'
+        }
+      })
+        .post('/fetch/data', payload)
+        .reply(503, annotation)
+        .post('/fetch/data', payload)
+        .reply(200, annotation)
+
+      clientManager.load(function (err) {
+        expect(err).to.equal(undefined)
+        clientManager.annotationsForPageLoad(pkgName, function (annotations) {
+          annotations.length.should.equal(1)
+
+          // we should not cache the failed response.
+          client.ttl(clientManager.key('foo-pkg'), function (err, res) {
+            if (err) return done(err)
+            // cache for a shorter length of time if requests
+            // to some outbound services failed.
+            res.should.be.lte(3)
+            getClients.done()
+            getAnnotation.done()
+            return done()
+          })
         })
       })
     })
