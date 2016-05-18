@@ -99,22 +99,34 @@ describe('ClientManager', function () {
 
       clientManager.load(function (err) {
         expect(err).to.equal(undefined)
-        clientManager.annotationsForPageLoad(pkgName, function (annotations) {
-          var annotation = annotations[0]
-          // the client-id gets written to the
-          // annotation as a unique identifier.
-          annotation.id.should.equal(clients[0].client_id)
-          annotation.fingerprint.should.match(/[a-z0-9]{64}/)
+        clientManager.annotationsForPageLoad(pkgName, function (annotations) {})
+        // wait a moment for the annotation to cache before
+        // we check its value.
+        setTimeout(function () {
+          clientManager.annotationsForPageLoad(pkgName, function (annotations) {
+            var annotation = annotations[0]
+            // the client-id gets written to the
+            // annotation as a unique identifier.
+            annotation.id.should.equal(clients[0].client_id)
+            annotation.fingerprint.should.match(/[a-z0-9]{64}/)
 
-          // we should cache the annotation.
-          client.lrange(clientManager.key('foo-pkg'), 0, 999, function (err, res) {
-            if (err) return done(err)
-            res.length.should.equal(1)
-            getClients.done()
-            getAnnotation.done()
-            return done()
+            // we should cache the annotation.
+            client.lrange(clientManager.key('foo-pkg'), 0, 999, function (err, res) {
+              if (err) return done(err)
+              res.length.should.equal(1)
+              client.ttl('lock_' + clientManager.key('foo-pkg'), function (err, res) {
+                if (err) return done(err)
+                // when successful we should cache for
+                // a good long length of time.
+                res.should.be.gte(10)
+
+                getClients.done()
+                getAnnotation.done()
+                return done()
+              })
+            })
           })
-        })
+        }, 100)
       })
     })
 
@@ -148,20 +160,25 @@ describe('ClientManager', function () {
 
       clientManager.load(function (err) {
         expect(err).to.equal(undefined)
-        clientManager.annotationsForPageLoad(pkgName, function (annotations) {
-          annotations.length.should.equal(1)
+        clientManager.annotationsForPageLoad(pkgName, function (annotations) {})
+        // wait a moment for the annotation to cache before
+        // we check its value.
+        setTimeout(function () {
+          clientManager.annotationsForPageLoad(pkgName, function (annotations) {
+            annotations.length.should.equal(1)
 
-          // we should not cache the failed response.
-          client.ttl(clientManager.key('foo-pkg'), function (err, res) {
-            if (err) return done(err)
-            // cache for a shorter length of time if requests
-            // to some outbound services failed.
-            res.should.be.lte(3)
-            getClients.done()
-            getAnnotation.done()
-            return done()
+            // we should not cache the failed response.
+            client.ttl('lock_' + clientManager.key('foo-pkg'), function (err, res) {
+              if (err) return done(err)
+              // cache for a shorter length of time if requests
+              // to some outbound services failed.
+              res.should.be.lte(3)
+              getClients.done()
+              getAnnotation.done()
+              return done()
+            })
           })
-        })
+        }, 100)
       })
     })
   })
