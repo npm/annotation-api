@@ -7,18 +7,22 @@ describe('PackageDoc', function () {
   describe('get', function () {
     it('returns JSON for scoped package', function (done) {
       var pkgName = '@ben/foo'
-      process.env.FRONT_DOOR_HOST = 'http://www.example.com'
-      process.env.SHARED_FETCH_SECRET = 'abc123'
-      var PackageDoc = require('../lib/package-doc')()
-      var getPackage = nock(process.env.FRONT_DOOR_HOST)
+      var registry = 'http://www.example.com'
+      var secret = 'abc123'
+      var PackageDoc = require('../lib/package-doc')({
+        registry: registry,
+        secret: secret
+      })
+      var getPackage = nock(registry)
         .get('/' + pkgName.replace('/', '%2f'))
         .query({
-          sharedFetchSecret: process.env.SHARED_FETCH_SECRET
+          sharedFetchSecret: secret
         })
-        .reply(200, {name: pkgName})
+        .reply(200, {
+          'dist-tags': {latest: '1.0.0'},
+          versions: {'1.0.0': {name: pkgName}}
+        })
       PackageDoc.get(pkgName, function (err, doc) {
-        process.env.FRONT_DOOR_HOST = undefined
-        process.env.SHARED_FETCH_SECRET = undefined
         if (err) return done(err)
         doc.name.should.equal(pkgName)
         getPackage.done()
@@ -28,19 +32,20 @@ describe('PackageDoc', function () {
 
     it('gracefully handles an upstream error', function (done) {
       var pkgName = '@ben/foo'
-      process.env.FRONT_DOOR_HOST = 'http://www.example.com'
-      process.env.SHARED_FETCH_SECRET = 'abc123'
-      var PackageDoc = require('../lib/package-doc')()
-      var getPackage = nock(process.env.FRONT_DOOR_HOST)
+      var registry = 'http://www.example.com'
+      var secret = 'abc123'
+      var PackageDoc = require('../lib/package-doc')({
+        registry: registry,
+        secret: secret
+      })
+      var getPackage = nock(registry)
         .get('/' + pkgName.replace('/', '%2f'))
         .query({
-          sharedFetchSecret: process.env.SHARED_FETCH_SECRET
+          sharedFetchSecret: secret
         })
         .reply(500)
       PackageDoc.get(pkgName, function (err, doc) {
         err.code.should.equal(500)
-        process.env.FRONT_DOOR_HOST = undefined
-        process.env.SHARED_FETCH_SECRET = undefined
         getPackage.done()
         return done()
       })

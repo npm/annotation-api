@@ -122,7 +122,10 @@ describe('ClientManager', function () {
       var pkgName = 'foo-pkg'
       var registry = 'http://www.example.com'
       var secret = 'abc123'
-      var doc = {name: pkgName}
+      var doc = {
+        'dist-tags': {latest: '1.0.0'},
+        versions: {'1.0.0': {name: pkgName}}
+      }
       var getPackage = nock(registry)
         .get('/' + pkgName.replace('/', '%2f'))
         .query({
@@ -133,7 +136,7 @@ describe('ClientManager', function () {
       var payload = JSON.stringify({
         event: 'package:page-load',
         package: pkgName,
-        packageDoc: doc,
+        packageDoc: {name: pkgName},
         sender: {
           email: clients[0].tokens[0].user_email
         }
