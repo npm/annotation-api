@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/npm/annotation-api/compare/v1.4.2...v1.5.0) (2016-05-19)
+
+
+### Bug Fixes
+
+* cache related performance tweaks ([#9](https://github.com/npm/annotation-api/issues/9)) ([392cef3](https://github.com/npm/annotation-api/commit/392cef3))
+* wait for cache to populate in test ([bbc0c70](https://github.com/npm/annotation-api/commit/bbc0c70))
+
+
+### Features
+
+* include package document in outbound webhook ([#10](https://github.com/npm/annotation-api/issues/10)) ([1abc2dc](https://github.com/npm/annotation-api/commit/1abc2dc))
+
+
+
 <a name="1.4.2"></a>
 ## [1.4.2](https://github.com/npm/annotation-api/compare/v1.4.1...v1.4.2) (2016-05-06)
 
