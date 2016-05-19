@@ -118,6 +118,71 @@ describe('ClientManager', function () {
       })
     })
 
+    it('includes package document in post to external API', function (done) {
+      var pkgName = 'foo-pkg'
+      var registry = 'http://www.example.com'
+      var secret = 'abc123'
+      var doc = {name: pkgName}
+      var getPackage = nock(registry)
+        .get('/' + pkgName.replace('/', '%2f'))
+        .query({
+          sharedFetchSecret: secret
+        })
+        .reply(200, doc)
+
+      var payload = JSON.stringify({
+        event: 'package:page-load',
+        package: pkgName,
+        packageDoc: doc,
+        sender: {
+          email: clients[0].tokens[0].user_email
+        }
+      })
+      var clientManager = new ClientManager({
+        packageDoc: require('../lib/package-doc')({
+          registry: registry,
+          secret: secret
+        })
+      })
+
+      var signature = clientManager.sign(payload, clients[0])
+      var getClients = nock('http://0.0.0.0:8084')
+        .get('/client')
+        .reply(200, [clients[0]])
+      // mock requesting a payload from an external
+      // service. the webhook endpoint is stored on
+      // the OAuth client.
+      var getAnnotation = nock('http://www.example.com', {
+        reqheaders: {
+          'npm-signature': signature,
+          'content-type': 'application/json'
+        }
+      })
+        .post('/fetch/data', payload)
+        .reply(200, annotation)
+
+      clientManager.load(function (err) {
+        expect(err).to.equal(undefined)
+        clientManager.annotationsForPageLoad(pkgName, function (annotations) {
+          var annotation = annotations[0]
+          // the client-id gets written to the
+          // annotation as a unique identifier.
+          annotation.id.should.equal(clients[0].client_id)
+          annotation.fingerprint.should.match(/[a-z0-9]{64}/)
+
+          // we should cache the annotation.
+          client.lrange(clientManager.key('foo-pkg'), 0, 999, function (err, res) {
+            if (err) return done(err)
+            res.length.should.equal(1)
+            getPackage.done()
+            getClients.done()
+            getAnnotation.done()
+            return done()
+          })
+        })
+      })
+    })
+
     it('caches for shorter period of time if some outbound requests failed', function (done) {
       var pkgName = 'foo-pkg'
       var payload = JSON.stringify({
