@@ -178,23 +178,29 @@ describe('ClientManager', function () {
 
       clientManager.load(function (err) {
         expect(err).to.equal(undefined)
-        clientManager.annotationsForPageLoad(pkgName, function (annotations) {
-          var annotation = annotations[0]
-          // the client-id gets written to the
-          // annotation as a unique identifier.
-          annotation.id.should.equal(clients[0].client_id)
-          annotation.fingerprint.should.match(/[a-z0-9]{64}/)
+        // prime the cache.
+        clientManager.annotationsForPageLoad(pkgName, function () {})
 
-          // we should cache the annotation.
-          client.lrange(clientManager.key('foo-pkg'), 0, 999, function (err, res) {
-            if (err) return done(err)
-            res.length.should.equal(1)
-            getPackage.done()
-            getClients.done()
-            getAnnotation.done()
-            return done()
+        // cache should now be full and return annotations.
+        setTimeout(function () {
+          clientManager.annotationsForPageLoad(pkgName, function (annotations) {
+            var annotation = annotations[0]
+            // the client-id gets written to the
+            // annotation as a unique identifier.
+            annotation.id.should.equal(clients[0].client_id)
+            annotation.fingerprint.should.match(/[a-z0-9]{64}/)
+
+            // we should cache the annotation.
+            client.lrange(clientManager.key('foo-pkg'), 0, 999, function (err, res) {
+              if (err) return done(err)
+              res.length.should.equal(1)
+              getPackage.done()
+              getClients.done()
+              getAnnotation.done()
+              return done()
+            })
           })
-        })
+        }, 100)
       })
     })
 
