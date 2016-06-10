@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/npm/annotation-api/compare/v1.5.0...v1.6.0) (2016-06-10)
+
+
+### Features
+
+* add endpoint to support scoped packages ([#12](https://github.com/npm/annotation-api/issues/12)) ([6b97d13](https://github.com/npm/annotation-api/commit/6b97d13))
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/npm/annotation-api/compare/v1.4.2...v1.5.0) (2016-05-19)
 
