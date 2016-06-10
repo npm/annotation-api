@@ -13,11 +13,19 @@ module.exports = function (opts, cb) {
     return next()
   })
 
-  server.get('/api/v1/annotations/:pkg', function (req, res, next) {
-    clientManager.annotationsForPageLoad(req.params.pkg, function (annotations) {
+  function packageHandler (req, res, next, pkgName) {
+    clientManager.annotationsForPageLoad(pkgName, function (annotations) {
       res.send(annotations)
       return next()
     })
+  }
+
+  server.get('/api/v1/annotations/:pkg', function (req, res, next) {
+    packageHandler(req, res, next, req.params.pkg)
+  })
+
+  server.get('/api/v1/annotations/:scope/:pkg', function (req, res, next) {
+    packageHandler(req, res, next, req.params.scope + '/' + req.params.pkg)
   })
 
   // start listening on port.
