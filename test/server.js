@@ -28,6 +28,28 @@ describe('annotation-api', function () {
     })
   })
 
+  it('supports unscoped package', function (done) {
+    request.get({
+      url: 'http://0.0.0.0:9999/api/v1/annotations/lodash',
+      json: true
+    }, function (req, res, body) {
+      res.statusCode.should.equal(200)
+      body.should.be.an('array').and.be.empty
+      return done()
+    })
+  })
+
+  it('supports scoped package', function (done) {
+    request.get({
+      url: 'http://0.0.0.0:9999/api/v1/annotations/@angular/core',
+      json: true
+    }, function (req, res, body) {
+      res.statusCode.should.equal(200)
+      body.should.be.an('array').and.be.empty
+      return done()
+    })
+  })
+
   after(function (done) {
     server.close(function () {
       return done()
