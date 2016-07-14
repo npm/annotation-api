@@ -34,7 +34,7 @@
     "standard-version": "^2.1.2"
   },
   "dependencies": {
-    "async": "^1.5.2",
+    "async": "^2.0.0",
     "lodash": "^4.10.0",
     "redis": "^2.5.3",
     "request": "^2.70.0",
