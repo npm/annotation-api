@@ -36,7 +36,7 @@
   "dependencies": {
     "async": "^2.0.0",
     "lodash": "^4.10.0",
-    "redis": "^2.5.3",
+    "redis": "^2.6.3",
     "request": "^2.70.0",
     "restify": "^4.0.4",
     "yargs": "^4.6.0"
