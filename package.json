@@ -29,7 +29,7 @@
     "coveralls": "^2.11.9",
     "mocha": "^3.0.1",
     "nock": "^8.0.0",
-    "nyc": "^8.3.0",
+    "nyc": "^10.3.2",
     "standard": "^7.0.1",
     "standard-version": "^3.0.0"
   },
